@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en_us">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                    <div class="alert alert-success small-text">
+                        {{ message }}
+                    </div>
+                {% elif message.tags == "error" %}
+                    <div class="alert alert-danger small-text">
+                        {{ message }}
+                    </div>
+                {% elif message.tags == "warning" %}
+                    <div class="alert alert-warning small-text">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-primary small-text">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
