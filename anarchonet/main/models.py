@@ -18,3 +18,4 @@ class Law(models.Model):
 class Player(models.Model):
     uuid = models.CharField(max_length=32, null=False, blank=False, unique=True, validators=[isRealUUID])
     nation = models.ForeignKey(Nation, null=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)

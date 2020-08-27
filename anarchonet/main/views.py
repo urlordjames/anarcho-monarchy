@@ -5,8 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from .models import Player
 
 def index(request):
-    return render(request, "index.html")
-
+    user = request.user
+    accounts = 0
+    if user.is_authenticated:
+        accounts = len(Player.objects.all().filter(owner=user))
+    return render(request, "index.html", {"username": user.get_username(),
+                                          "hasaccount": accounts != 0})
 @csrf_protect
 def loginUser(request):
     if request.method == "GET":
@@ -14,13 +18,13 @@ def loginUser(request):
     elif request.method == "POST":
         formdata = request.POST
         user = authenticate(request, username=formdata["username"], password=formdata["password"])
-        if not user is None:
+        if user is None:
+            messages.error(request, "authentication failed")
+            return redirect("/login/")
+        else:
             login(request, user)
             messages.success(request, "you have successfully logged in!")
             return redirect("/")
-        else:
-            messages.error(request, "authentication failed")
-        return redirect("/login/")
     else:
         return HttpResponse(status=405)
 
