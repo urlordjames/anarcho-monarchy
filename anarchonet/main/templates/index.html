@@ -13,6 +13,10 @@
   <nav class="medium-text">
     <a href="/players/">player list</a><br>
     {% if request.user.is_authenticated %}
+    {% if noaccount %}
+    <a href="/createplayer/">register your character</a><br>
+    {% endif %}
+    <a href="/myplayers/">your players</a><br>
     <a href="/logout/">logout</a>
     {% else %}
     <a href="/login/">login</a>

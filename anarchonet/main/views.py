@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Player
@@ -10,7 +11,7 @@ def index(request):
     if user.is_authenticated:
         accounts = len(Player.objects.all().filter(owner=user))
     return render(request, "index.html", {"username": user.get_username(),
-                                          "hasaccount": accounts != 0})
+                                          "noaccount": accounts == 0})
 @csrf_protect
 def loginUser(request):
     if request.method == "GET":
@@ -64,3 +65,20 @@ def viewAllPlayers(request):
     return render(request, "basiclist.html", {"title": "Player List",
                                               "listof": "Players",
                                               "list": Player.objects.all()})
+def viewUserPlayers(request):
+    user = request.user
+    if user.is_authenticated:
+        return render(request, "basiclist.html", {"title": "Your Players",
+                                                  "listof": "Players",
+                                                  "list": Player.objects.all().filter(owner=user)})
+    else:
+        return HttpResponse(status=401)
+
+def createPlayer(request):
+    if request.method == "GET":
+        return render(request, "createplayer.html")
+    elif request.method == "POST":
+        #TODO: make this work
+        pass
+    else:
+        return HttpResponse(status=405)

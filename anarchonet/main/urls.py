@@ -7,4 +7,6 @@ urlpatterns = [
     path("resetpassword/", views.passwordReset, name="password reset"),
     path("logout/", views.logoutUser, name="logout"),
     path("players/", views.viewAllPlayers, name="player list"),
+    path("myplayers/", views.viewUserPlayers, name="user player list"),
+    path("createplayer/", views.createPlayer, name="create player"),
 ]
