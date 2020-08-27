@@ -1,0 +1,15 @@
+{% extends "table.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block thead %}
+<th class="small-text">{{ listof }}</th>
+{% endblock %}
+
+{% block tbody %}
+{% for item in list %}
+    <tr>
+        <td class="small-text">{{ item }}</td>
+    </tr>
+{% endfor %}
+{% endblock %}

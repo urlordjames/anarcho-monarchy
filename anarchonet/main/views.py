@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .models import Player
 
 def index(request):
     return render(request, "index.html")
@@ -54,3 +55,8 @@ def logoutUser(request):
     logout(request)
     messages.success(request, "successfully logged out")
     return redirect("/")
+
+def viewAllPlayers(request):
+    return render(request, "basiclist.html", {"title": "Player List",
+                                              "listof": "Players",
+                                              "list": Player.objects.all()})
