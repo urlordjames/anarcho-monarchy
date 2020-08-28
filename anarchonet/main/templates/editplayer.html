@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Register Player{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+  <h1>Edit Minecraft Account</h1>
+  <form action="/editplayer/?uuid={{ uuid }}" method="POST">
+    {% csrf_token %}
+    <div class="container">
+      <div class="mb-3">
+        <label class="small-text" for="nation">Nation:</label>
+	<select name="nation" id="nation" class="form-control">
+		<option value="">None</option>
+		{% for nation in nations %}
+		<option value="{{ nation }}">{{ nation }}</option>
+		{% endfor %}
+	</select>
+      </div>
+      <div class="mb-3">
+	<input type="submit" class="btn btn-primary" value="Register">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

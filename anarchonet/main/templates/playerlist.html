@@ -1,0 +1,17 @@
+{% extends "table.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block thead %}
+<th class="small-text">Your Players</th>
+<th class="small-text">Edit</th>
+{% endblock %}
+
+{% block tbody %}
+{% for item in list %}
+    <tr>
+        <td class="small-text">{{ item }}</td>
+	<td class="small-text"><a href="/editplayer/?uuid={{ item.uuid }}">Edit</a></td>
+    </tr>
+{% endfor %}
+{% endblock %}

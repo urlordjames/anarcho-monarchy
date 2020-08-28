@@ -9,4 +9,5 @@ urlpatterns = [
     path("players/", views.viewAllPlayers, name="player list"),
     path("myplayers/", views.viewUserPlayers, name="user player list"),
     path("createplayer/", views.createPlayer, name="create player"),
+    path("editplayer/", views.editPlayer, name="edit player"),
 ]

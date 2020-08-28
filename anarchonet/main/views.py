@@ -1,13 +1,13 @@
 import time
 import requests
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password, ValidationError
-from .models import Player
+from .models import Player, Nation
 
 def index(request):
     user = request.user
@@ -72,8 +72,7 @@ def viewAllPlayers(request):
 def viewUserPlayers(request):
     user = request.user
     if user.is_authenticated:
-        return render(request, "basiclist.html", {"title": "Your Players",
-                                                  "listof": "Players",
+        return render(request, "playerlist.html", {"title": "Your Players",
                                                   "list": Player.objects.all().filter(owner=user)})
     else:
         return HttpResponse(status=401)
@@ -105,5 +104,19 @@ def createPlayer(request):
             return redirect("/createplayer/")
         messages.success(request, "account registered successfully")
         return redirect("/myplayers/")
+    else:
+        return HttpResponse(status=405)
+
+@csrf_protect
+def editPlayer(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    player = get_object_or_404(Player, uuid=request.GET.get("uuid"))
+    if request.method == "GET":
+        return render(request, "editplayer.html", {"nations": Nation.objects.all()})
+    elif request.method == "POST":
+        nation = get_object_or_404(Nation, name=request.POST.get("nation"))
+        return HttpResponse(status=200)
     else:
         return HttpResponse(status=405)

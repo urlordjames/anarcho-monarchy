@@ -14,9 +14,10 @@
     <a href="/players/">player list</a><br>
     {% if request.user.is_authenticated %}
     {% if noaccount %}
-    <a href="/createplayer/">register your character</a><br>
-    {% endif %}
+    <a href="/createplayer/">register your Minecraft account</a><br>
+    {% else %}
     <a href="/myplayers/">your players</a><br>
+    {% endif %}
     <a href="/logout/">logout</a>
     {% else %}
     <a href="/login/">login</a>
