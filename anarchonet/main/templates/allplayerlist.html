@@ -3,9 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block thead %}
-<th class="small-text">Your Players</th>
+<th class="small-text">Players</th>
 <th class="small-text">Nation</th>
-<th class="small-text">Edit</th>
 {% endblock %}
 
 {% block tbody %}
@@ -13,7 +12,6 @@
     <tr>
         <td class="small-text">{{ player }}</td>
 	<td class="small-text">{{ player.nation }}</td>
-	<td class="small-text"><a href="/editplayer/?uuid={{ player.uuid }}">Edit</a></td>
     </tr>
 {% endfor %}
 {% endblock %}

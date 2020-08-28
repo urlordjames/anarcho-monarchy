@@ -5,7 +5,7 @@
 {% block content %}
 <div style="text-align: center">
   <h1>Edit Minecraft Account</h1>
-  <form action="/editplayer/?uuid={{ uuid }}" method="POST">
+  <form action="/editplayer/?uuid={{ request.GET.uuid }}" method="POST">
     {% csrf_token %}
     <div class="container">
       <div class="mb-3">
@@ -13,7 +13,7 @@
 	<select name="nation" id="nation" class="form-control">
 		<option value="">None</option>
 		{% for nation in nations %}
-		<option value="{{ nation }}">{{ nation }}</option>
+		<option value="{{ nation.name }}">{{ nation }}</option>
 		{% endfor %}
 	</select>
       </div>

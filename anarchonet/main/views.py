@@ -66,7 +66,7 @@ def logoutUser(request):
     return redirect("/")
 
 def viewAllPlayers(request):
-    return render(request, "basiclist.html", {"title": "Player List",
+    return render(request, "allplayerlist.html", {"title": "Player List",
                                               "listof": "Players",
                                               "list": Player.objects.all()})
 def viewUserPlayers(request):
@@ -112,11 +112,18 @@ def editPlayer(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
+    print(request.GET.get("uuid"))
     player = get_object_or_404(Player, uuid=request.GET.get("uuid"))
     if request.method == "GET":
         return render(request, "editplayer.html", {"nations": Nation.objects.all()})
     elif request.method == "POST":
-        nation = get_object_or_404(Nation, name=request.POST.get("nation"))
-        return HttpResponse(status=200)
+        requestednation = request.POST.get("nation")
+        nation = None
+        if not requestednation is None and requestednation != "":
+            nation = get_object_or_404(Nation, name=request.POST.get("nation"))
+        player.nation = nation
+        player.save()
+        messages.success(request, "player alliance set successfully")
+        return redirect("/myplayers/")
     else:
         return HttpResponse(status=405)
