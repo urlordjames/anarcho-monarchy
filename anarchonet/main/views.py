@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.password_validation import validate_password, ValidationError
 from .models import Player
 
 def index(request):
