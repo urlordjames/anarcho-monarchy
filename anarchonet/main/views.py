@@ -67,12 +67,12 @@ def logoutUser(request):
 
 def viewAllPlayers(request):
     return render(request, "allplayerlist.html", {"title": "Player List",
-                                              "list": Player.objects.all()})
+                                                  "list": Player.objects.all()})
 def viewUserPlayers(request):
     user = request.user
     if user.is_authenticated:
         return render(request, "playerlist.html", {"title": "Your Players",
-                                                  "list": Player.objects.all().filter(owner=user)})
+                                                   "list": Player.objects.all().filter(owner=user)})
     else:
         return HttpResponse(status=401)
 
@@ -128,4 +128,4 @@ def editPlayer(request):
 
 def viewNations(request):
     return render(request, "nationlist.html", {"title": "Nation List",
-                                              "list": Nation.objects.all()})
+                                               "list": Nation.objects.all()})
