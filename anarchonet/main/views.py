@@ -78,6 +78,7 @@ def viewUserPlayers(request):
     else:
         return HttpResponse(status=401)
 
+@csrf_protect
 def createPlayer(request):
     user = request.user
     if not user.is_authenticated:
@@ -85,6 +86,9 @@ def createPlayer(request):
     if request.method == "GET":
         return render(request, "createplayer.html")
     elif request.method == "POST":
+        if not user.is_superuser and len(Player.objects.all().filter(owner=user)) >= 3:
+            messages.error(request, "player limit exceeded, if you need to register more players contact me")
+            return redirect("/myplayers/")
         username = request.POST["username"]
         r = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}?at={int(time.time())}")
         if r.status_code != 200:
