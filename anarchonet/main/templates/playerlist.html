@@ -12,8 +12,8 @@
 {% for player in list %}
     <tr>
         <td class="small-text">{{ player }}</td>
-	<td class="small-text">{{ player.nation }}</td>
-	<td class="small-text"><a href="/editplayer/?uuid={{ player.uuid }}">Edit</a></td>
+        <td class="small-text">{{ player.nation }}</td>
+        <td class="small-text"><a href="/editplayer/?uuid={{ player.uuid }}">Edit</a></td>
     </tr>
 {% endfor %}
 {% endblock %}

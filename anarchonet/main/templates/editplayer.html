@@ -10,15 +10,15 @@
     <div class="container">
       <div class="mb-3">
         <label class="small-text" for="nation">Nation:</label>
-	<select name="nation" id="nation" class="form-control">
-		<option value="">None</option>
-		{% for nation in nations %}
-		<option value="{{ nation.name }}">{{ nation }}</option>
-		{% endfor %}
-	</select>
+        <select name="nation" id="nation" class="form-control">
+                <option value="">None</option>
+                {% for nation in nations %}
+                <option value="{{ nation.name }}">{{ nation }}</option>
+                {% endfor %}
+        </select>
       </div>
       <div class="mb-3">
-	<input type="submit" class="btn btn-primary" value="Register">
+        <input type="submit" class="btn btn-primary" value="Register">
       </div>
     </div>
   </form>
