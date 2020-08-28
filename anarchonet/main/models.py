@@ -9,6 +9,7 @@ def isRealUUID(uuid):
 
 class Nation(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    about = models.CharField(max_length=500, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
 
     def __str__(self):
