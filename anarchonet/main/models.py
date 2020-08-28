@@ -17,5 +17,9 @@ class Law(models.Model):
 
 class Player(models.Model):
     uuid = models.CharField(max_length=32, null=False, blank=False, unique=True, validators=[isRealUUID])
-    nation = models.ForeignKey(Nation, null=True, on_delete=models.SET_NULL)
+    nation = models.ForeignKey(Nation, null=True, blank=True, on_delete=models.SET_NULL)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        r = requests.get(f"https://api.mojang.com/user/profiles/{self.uuid}/names")
+        return r.json()[-1]["name"]

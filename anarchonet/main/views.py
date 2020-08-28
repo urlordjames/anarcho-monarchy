@@ -1,3 +1,6 @@
+import time
+import requests
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
@@ -76,10 +79,27 @@ def viewUserPlayers(request):
         return HttpResponse(status=401)
 
 def createPlayer(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpRespose(status=401)
     if request.method == "GET":
         return render(request, "createplayer.html")
     elif request.method == "POST":
-        #TODO: make this work
-        pass
+        username = request.POST["username"]
+        r = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}?at={int(time.time())}")
+        if r.status_code != 200:
+            messages.error(request, "unable to fetch UUID (account nonexistent or Mojang API down)")
+            return redirect("/createplayer/")
+        response = r.json()
+        newplayer = Player(owner=user, uuid=response["id"], nation=None)
+        try:
+            newplayer.full_clean()
+            newplayer.save()
+        except ValidationError as e:
+            for i in e:
+                messages.error(request, i)
+            return redirect("/createplayer/")
+        messages.success(request, "account registered successfully")
+        return redirect("/myplayers/")
     else:
         return HttpResponse(status=405)
