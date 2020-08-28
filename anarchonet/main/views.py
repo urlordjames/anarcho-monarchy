@@ -112,7 +112,6 @@ def editPlayer(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
-    print(request.GET.get("uuid"))
     player = get_object_or_404(Player, uuid=request.GET.get("uuid"))
     if request.method == "GET":
         return render(request, "editplayer.html", {"nations": Nation.objects.all()})
