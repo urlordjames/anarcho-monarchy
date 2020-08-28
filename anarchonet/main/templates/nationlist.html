@@ -1,0 +1,17 @@
+{% extends "table.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block thead %}
+<th class="small-text">Nations</th>
+<th class="small-text">Info</th>
+{% endblock %}
+
+{% block tbody %}
+{% for nation in list %}
+    <tr>
+        <td class="small-text">{{ nation }}</td>
+        <td class="small-text"><a href="/nationinfo/?nation={{ nation }}">Info</a></td>
+    </tr>
+{% endfor %}
+{% endblock %}

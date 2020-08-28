@@ -67,7 +67,6 @@ def logoutUser(request):
 
 def viewAllPlayers(request):
     return render(request, "allplayerlist.html", {"title": "Player List",
-                                              "listof": "Players",
                                               "list": Player.objects.all()})
 def viewUserPlayers(request):
     user = request.user
@@ -126,3 +125,7 @@ def editPlayer(request):
         return redirect("/myplayers/")
     else:
         return HttpResponse(status=405)
+
+def viewNations(request):
+    return render(request, "nationlist.html", {"title": "Nation List",
+                                              "list": Nation.objects.all()})
