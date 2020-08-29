@@ -137,7 +137,7 @@ def createNation(request):
         return HttpResponse(status=401)
     if request.method == "GET":
         return render(request, "createnation.html")
-    if request.method == "POST":
+    elif request.method == "POST":
         newnation = Nation(owner=user, name=request.POST.get("name"), about=request.POST.get("about"))
         try:
             newnation.full_clean()
