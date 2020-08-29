@@ -129,3 +129,24 @@ def editPlayer(request):
 def viewNations(request):
     return render(request, "nationlist.html", {"title": "Nation List",
                                                "list": Nation.objects.all()})
+
+@csrf_protect
+def createNation(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    if request.method == "GET":
+        return render(request, "createnation.html")
+    if request.method == "POST":
+        newnation = Nation(owner=user, name=request.POST.get("name"), about=request.POST.get("about"))
+        try:
+            newnation.full_clean()
+            newnation.save()
+        except ValidationError as e:
+            for i in e:
+                messages.error(request, i)
+            return redirect("/createnation/")
+        messages.success(request, "nation created successfully")
+        return redirect("/nations/")
+    else:
+        return HttpResponse(status=405)

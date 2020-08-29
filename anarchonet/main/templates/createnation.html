@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Register Nation{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+  <h1>Register New Nation</h1>
+  <form action="/createnation/" method="POST">
+    {% csrf_token %}
+    <div class="container">
+      <div class="mb-3">
+        <label class="small-text" for="name">Name:</label>
+        <input type="text" name="name" id="name" class="form-control" autofocus required>
+      </div>
+      <div class="mb-3">
+        <label class="small-text" for="about">Description:</label>
+        <input type="text" name="about" id="about" class="form-control">
+      </div>
+      <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Register">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
