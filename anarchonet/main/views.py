@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password, ValidationError
-from .models import Player, Nation
+from .models import Player, Nation, Law
 
 def index(request):
     user = request.user
@@ -129,7 +129,6 @@ def editPlayer(request):
 def viewNations(request):
     return render(request, "nationlist.html", {"title": "Nation List",
                                                "list": Nation.objects.all()})
-
 @csrf_protect
 def createNation(request):
     user = request.user
@@ -150,3 +149,9 @@ def createNation(request):
         return redirect("/nations/")
     else:
         return HttpResponse(status=405)
+
+def nationInfo(request):
+    nation = get_object_or_404(Nation, name=request.GET.get("nation"))
+    return render(request, "nationinfo.html", {"nation": nation,
+                                               "laws": Law.objects.all().filter(nation=nation),
+                                               "members": Player.objects.all().filter(nation=nation)})

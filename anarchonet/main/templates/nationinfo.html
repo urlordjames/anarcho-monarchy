@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Anarcho-Monarchy{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+  <h1>{{ nation.name }}</h1>
+  <div class="small-text">
+    <p>{{ nation.about }}</p>
+    <p>owner: {{ nation.owner }}</p>
+  </div>
+  <h2>Members</h2>
+  <div class="small-text">
+    {% for member in members %}
+    <p>{{ member }}</p>
+    {% endfor %}
+  </div>
+  <h2>Laws</h2>
+  {% if laws %}
+  <div class="small-text">
+    {% for law in laws %}
+    <p>{{ law }}</p>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div><p>this nation has no laws</p></div>
+  {% endif %}
+</div>
+{% endblock %}
