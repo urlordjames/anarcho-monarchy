@@ -137,6 +137,9 @@ def createNation(request):
     if request.method == "GET":
         return render(request, "createnation.html")
     elif request.method == "POST":
+        if not user.is_superuser and len(Nation.objects.all().filter(owner=user)) >= 1:
+            messages.error(request, "you may only lead one nation")
+            return redirect("/")
         newnation = Nation(owner=user, name=request.POST.get("name"), about=request.POST.get("about"))
         try:
             newnation.full_clean()
