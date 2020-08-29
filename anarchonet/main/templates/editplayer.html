@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Register Player{% endblock %}
+{% block title %}Edit Player{% endblock %}
 
 {% block content %}
 <div style="text-align: center">
@@ -11,10 +11,10 @@
       <div class="mb-3">
         <label class="small-text" for="nation">Nation:</label>
         <select name="nation" id="nation" class="form-control">
-                <option value="">None</option>
-                {% for nation in nations %}
-                <option value="{{ nation.name }}">{{ nation }}</option>
-                {% endfor %}
+          <option value="">None</option>
+          {% for nation in nations %}
+          <option value="{{ nation.name }}">{{ nation }}</option>
+          {% endfor %}
         </select>
       </div>
       <div class="mb-3">

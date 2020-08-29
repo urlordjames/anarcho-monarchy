@@ -12,5 +12,6 @@ urlpatterns = [
     path("editplayer/", views.editPlayer, name="edit player"),
     path("nations/", views.viewNations, name="nation list"),
     path("createnation/", views.createNation, name="create nation"),
+    path("editnation/", views.editNation, name="edit nation"),
     path("nationinfo/", views.nationInfo, name="nation info"),
 ]

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Nation{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+  <h1>Edit Nation</h1>
+  <form action="/editnation/?nation={{ request.GET.nation }}" method="POST">
+    {% csrf_token %}
+    <div class="container">
+      <div class="mb-3">
+        <label class="small-text" for="about">Description:</label>
+        <textarea rows="5" cols="80" name="about" id="about">{{ nation.about }}</textarea>
+      </div>
+      <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Edit">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

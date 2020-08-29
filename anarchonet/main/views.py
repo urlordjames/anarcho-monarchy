@@ -158,3 +158,25 @@ def nationInfo(request):
     return render(request, "nationinfo.html", {"nation": nation,
                                                "laws": Law.objects.all().filter(nation=nation),
                                                "members": Player.objects.all().filter(nation=nation)})
+
+@csrf_protect
+def editNation(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    nation = get_object_or_404(Nation, name=request.GET.get("nation"))
+    if request.method == "GET":
+        return render(request, "editnation.html", {"nation": nation})
+    elif request.method == "POST":
+        try:
+            nation.about = request.POST.get("about")
+            nation.full_clean()
+            nation.save()
+        except ValidationError as e:
+            for i in e:
+                messages.error(request, i)
+            return redirect("/createnation/")
+        messages.success(request, "nation created successfully")
+        return redirect(f"/nationinfo/?nation={nation.name}")
+    else:
+        return HttpResponse(status=405)
