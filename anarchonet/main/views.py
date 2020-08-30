@@ -182,7 +182,7 @@ def editNation(request):
                 messages.error(request, i)
             return redirect("/createnation/")
         messages.success(request, "nation created successfully")
-        return redirect(f"/editnation/?nation={nation.name}")
+        return redirect("/editnation/")
     else:
         return HttpResponse(status=405)
 
@@ -201,7 +201,8 @@ def createLaw(request):
     except ValidationError as e:
         for i in e:
             messages.error(request, i)
-    return redirect(f"/editnation/?nation={nation.name}")
+    messages.success(request, "law successfully created")
+    return redirect("/editnation/")
 
 @csrf_protect
 def editLaw(request):
@@ -219,4 +220,18 @@ def editLaw(request):
     except ValidationError as e:
         for i in e:
             messages.error(request, i)
-    return redirect(f"/editnation/?nation={nation.name}")
+    messages.success(request, "law successfully edited")
+    return redirect("/editnation/")
+
+@csrf_protect
+def deleteLaw(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    law = get_object_or_404(Law, pk=request.POST.get("id"))
+    nation = law.nation
+    if nation.owner != user:
+        return HttpResponse(status=403)
+    law.delete()
+    messages.success(request, "law successfully deleted")
+    return redirect("/editnation/")

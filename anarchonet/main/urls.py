@@ -16,4 +16,5 @@ urlpatterns = [
     path("nationinfo/", views.nationInfo, name="nation info"),
     path("createlaw/", views.createLaw, name="create law"),
     path("editlaw/", views.editLaw, name="edit law"),
+    path("deletelaw/", views.deleteLaw, name="delete law"),
 ]
