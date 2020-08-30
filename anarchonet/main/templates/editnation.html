@@ -30,6 +30,13 @@
         <input type="submit" class="btn btn-primary" value="Edit">
       </div>
     </form>
+    <form action="/deletelaw/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ law.pk }}">
+      <div class="mb-3">
+        <input type="submit" class="btn btn-danger" value="Delete">
+      </div>
+    </form>
   </div>
   {% endfor %}
   <form action="/createlaw/" method="POST">
