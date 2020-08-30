@@ -16,11 +16,8 @@ class Nation(models.Model):
         return self.name
 
 class Law(models.Model):
-    text = models.CharField(max_length=200, null=False, blank=False)
+    text = models.CharField(max_length=200, blank=True)
     nation = models.ForeignKey(Nation, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.text
 
 class Player(models.Model):
     uuid = models.CharField(max_length=32, null=False, blank=False, unique=True, validators=[isRealUUID])

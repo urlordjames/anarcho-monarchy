@@ -5,7 +5,7 @@
 {% block content %}
 <div style="text-align: center">
   <h1>Edit Nation</h1>
-  <form action="/editnation/?nation={{ request.GET.nation }}" method="POST">
+  <form action="/editnation/?nation={{ nation }}" method="POST">
     {% csrf_token %}
     <div class="container">
       <div class="mb-3">
@@ -20,12 +20,24 @@
   <h1>laws</h1>
   {% for law in laws %}
   <div>
-    <form action="/editlaw/?id={{ law.pk }}">
+    <form action="/editlaw/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ law.pk }}">
+      <div class="mb-3">
+        <textarea rows="3" cols="40" name="content">{{ law.text }}</textarea>
+      </div>
       <div class="mb-3">
         <input type="submit" class="btn btn-primary" value="Edit">
       </div>
     </form>
   </div>
   {% endfor %}
+  <form action="/createlaw/" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="nation" value="{{ nation }}">
+    <div class="mb-3">
+      <input type="submit" class="btn btn-primary" value="New Law">
+    </div>
+  </form>
 </div>
 {% endblock %}

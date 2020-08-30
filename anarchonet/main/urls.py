@@ -14,4 +14,6 @@ urlpatterns = [
     path("createnation/", views.createNation, name="create nation"),
     path("editnation/", views.editNation, name="edit nation"),
     path("nationinfo/", views.nationInfo, name="nation info"),
+    path("createlaw/", views.createLaw, name="create law"),
+    path("editlaw/", views.editLaw, name="edit law"),
 ]

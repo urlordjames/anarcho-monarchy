@@ -166,7 +166,7 @@ def editNation(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
-    nation = get_object_or_404(Nation, name=request.GET.get("nation"))
+    nation = get_object_or_404(Nation, owner=user)
     if nation.owner != user:
         return HttpResponse(status=403)
     if request.method == "GET":
@@ -182,7 +182,7 @@ def editNation(request):
                 messages.error(request, i)
             return redirect("/createnation/")
         messages.success(request, "nation created successfully")
-        return redirect(f"/nationinfo/?nation={nation.name}")
+        return redirect(f"/editnation/?nation={nation.name}")
     else:
         return HttpResponse(status=405)
 
@@ -201,4 +201,22 @@ def createLaw(request):
     except ValidationError as e:
         for i in e:
             messages.error(request, i)
-        return redirect("/editnation/")
+    return redirect(f"/editnation/?nation={nation.name}")
+
+@csrf_protect
+def editLaw(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    law = get_object_or_404(Law, pk=request.POST.get("id"))
+    nation = law.nation
+    if nation.owner != user:
+        return HttpResponse(status=403)
+    law.text = request.POST.get("content")
+    try:
+        law.full_clean()
+        law.save()
+    except ValidationError as e:
+        for i in e:
+            messages.error(request, i)
+    return redirect(f"/editnation/?nation={nation.name}")
