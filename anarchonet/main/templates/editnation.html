@@ -17,5 +17,15 @@
       </div>
     </div>
   </form>
+  <h1>laws</h1>
+  {% for law in laws %}
+  <div>
+    <form action="/editlaw/?id={{ law.pk }}">
+      <div class="mb-3">
+        <input type="submit" class="btn btn-primary" value="Edit">
+      </div>
+    </form>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}

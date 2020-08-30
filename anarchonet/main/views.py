@@ -112,6 +112,8 @@ def editPlayer(request):
     if not user.is_authenticated:
         return HttpResponse(status=401)
     player = get_object_or_404(Player, uuid=request.GET.get("uuid"))
+    if player.owner != user:
+        return HttpResponse(status=403)
     if request.method == "GET":
         return render(request, "editplayer.html", {"nations": Nation.objects.all()})
     elif request.method == "POST":
@@ -165,8 +167,11 @@ def editNation(request):
     if not user.is_authenticated:
         return HttpResponse(status=401)
     nation = get_object_or_404(Nation, name=request.GET.get("nation"))
+    if nation.owner != user:
+        return HttpResponse(status=403)
     if request.method == "GET":
-        return render(request, "editnation.html", {"nation": nation})
+        return render(request, "editnation.html", {"nation": nation,
+                                                   "laws": Law.objects.all().filter(nation=nation)})
     elif request.method == "POST":
         try:
             nation.about = request.POST.get("about")
@@ -180,3 +185,20 @@ def editNation(request):
         return redirect(f"/nationinfo/?nation={nation.name}")
     else:
         return HttpResponse(status=405)
+
+@csrf_protect
+def createLaw(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponse(status=401)
+    nation = get_object_or_404(Nation, name=request.POST.get("nation"))
+    if nation.owner != user:
+        return HttpResponse(status=403)
+    newlaw = Law(nation=nation)
+    try:
+        newlaw.full_clean()
+        newlaw.save()
+    except ValidationError as e:
+        for i in e:
+            messages.error(request, i)
+        return redirect("/editnation/")
