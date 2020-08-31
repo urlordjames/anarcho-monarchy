@@ -1,0 +1,6 @@
+django
+user-agents
+django-user-agents
+psycopg2-binary
+requests
+gunicorn
