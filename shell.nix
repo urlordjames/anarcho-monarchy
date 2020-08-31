@@ -1,4 +1,4 @@
-{ pkgs ? import (fetchTarball https://github.com/urlordjames/nixpkgs/archive/nixos-unstable.tar.gz) {} }:
+{ pkgs ? import (fetchTarball https://github.com/urlordjames/nixpkgs/archive/master.tar.gz) {} }:
 let dependancies = python-packages: with python-packages; [
   django
   user-agents
