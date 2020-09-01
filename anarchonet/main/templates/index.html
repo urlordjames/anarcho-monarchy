@@ -19,6 +19,9 @@
     {% else %}
     <a href="/myplayers/">your players</a><br>
     {% endif %}
+    {% if hasnation %}
+    <a href="/editnation/">edit your nation</a><br>
+    {% endif %}
     <a href="/logout/">logout</a><br>
     <a href="/resetpassword/">change your password</a><br>
     {% else %}

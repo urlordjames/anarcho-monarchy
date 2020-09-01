@@ -12,10 +12,13 @@ from .models import Player, Nation, Law
 def index(request):
     user = request.user
     accounts = 0
+    nation = None
     if user.is_authenticated:
         accounts = len(Player.objects.all().filter(owner=user))
+        nation = Nation.objects.get(owner=user)
     return render(request, "index.html", {"username": user.get_username(),
-                                          "noaccount": accounts == 0})
+                                          "noaccount": accounts == 0,
+                                          "hasnation": not nation is None})
 @csrf_protect
 def loginUser(request):
     if request.method == "GET":
