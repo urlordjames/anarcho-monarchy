@@ -27,14 +27,14 @@
         <textarea rows="3" cols="40" name="content">{{ law.text }}</textarea>
       </div>
       <div class="mb-3">
-        <input type="submit" class="btn btn-primary" value="Edit">
+        <input type="submit" class="btn btn-primary" value="Update Law">
       </div>
     </form>
     <form action="/deletelaw/" method="POST">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ law.pk }}">
       <div class="mb-3">
-        <input type="submit" class="btn btn-danger" value="Delete">
+        <input type="submit" class="btn btn-danger" value="Delete Law">
       </div>
     </form>
   </div>
@@ -43,7 +43,7 @@
     {% csrf_token %}
     <input type="hidden" name="nation" value="{{ nation }}">
     <div class="mb-3">
-      <input type="submit" class="btn btn-primary" value="New Law">
+      <input type="submit" class="btn btn-primary" value="Create New Law">
     </div>
   </form>
 </div>
