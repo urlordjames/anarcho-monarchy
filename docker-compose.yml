@@ -2,6 +2,7 @@ version: "3.8"
 
 volumes:
     db:
+    static:
 
 services:
     db:
@@ -25,6 +26,8 @@ services:
             USESSL: "false"
         depends_on:
             - db
+        volumes:
+            - static:/root/static
 
     productionproxy:
         image: "productionproxy"
@@ -36,3 +39,4 @@ services:
             - anarchy
         volumes:
             - ./certs:/etc/certs
+            - static:/etc/static/static
