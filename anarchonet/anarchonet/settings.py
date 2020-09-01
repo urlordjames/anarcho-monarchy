@@ -26,9 +26,11 @@ if productionkey is None:
 else:
     SECRET_KEY = productionkey
     DEBUG = False
+    X_FRAME_OPTIONS = "DENY"
+
+if os.environ.get("USESSL") == "true":
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    X_FRAME_OPTIONS = "DENY"
 
 ALLOWED_HOSTS = ["*"]
 

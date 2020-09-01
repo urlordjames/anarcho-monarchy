@@ -9,7 +9,8 @@ services:
         restart: always
         environment:
             POSTGRES_USER: "anarchist"
-            POSTGRES_PASSWORD: ${dbpass}
+            POSTGRES_PASSWORD: ${DBPASS}
+            POSTGRES_DB: "db"
         volumes:
             - db:/var/lib/postgresql/data
 
@@ -17,10 +18,11 @@ services:
         image: "anarchy"
         build: .
         environment:
-            secret: ${secret}
+            SECRET: ${SECRET}
             dbname: "db"
             dbuser: "anarchist"
-            dbpass: ${dbpass}
+            dbpass: ${DBPASS}
+            USESSL: "false"
         depends_on:
             - db
         ports:
