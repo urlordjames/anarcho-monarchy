@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password, ValidationError
 from .models import Player, Nation, Law
 
@@ -240,3 +241,32 @@ def deleteLaw(request):
     law.delete()
     messages.success(request, "law successfully deleted")
     return redirect("/editnation/")
+
+@csrf_protect
+def createUser(request):
+    if request.user.is_authenticated:
+        messages.error(request, "you must logout of your existing account first")
+        return redirect("/")
+    if request.method == "GET":
+        return render(request, "createaccount.html")
+    elif request.method == "POST":
+        password = request.POST.get("password")
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            for i in e:
+                messages.error(request, i)
+            return redirect("/createaccount/")
+        user = User.objects.create_user(username=request.POST.get("username"),
+                                        password=password)
+        try:
+            user.full_clean()
+            user.save()
+        except ValidationError as e:
+            for i in e:
+                messages.error(request, i)
+            return redirect("/createaccount/")
+        messages.success(request, "account created successfully")
+        return redirect("/login/")
+    else:
+        return HttpResponse(status=405)
