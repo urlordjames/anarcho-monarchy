@@ -16,7 +16,10 @@ def index(request):
     nation = None
     if user.is_authenticated:
         accounts = len(Player.objects.all().filter(owner=user))
-        nation = Nation.objects.get(owner=user)
+        try:
+            nation = Nation.objects.get(owner=user)
+        except Exception as e:
+            pass
     return render(request, "index.html", {"username": user.get_username(),
                                           "noaccount": accounts == 0,
                                           "hasnation": not nation is None})
