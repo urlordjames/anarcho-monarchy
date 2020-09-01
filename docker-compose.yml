@@ -31,5 +31,8 @@ services:
         build: .
         ports:
             - 8000:80
+            - 8443:443
         depends_on:
             - anarchy
+        volumes:
+            - ./certs:/etc/certs
