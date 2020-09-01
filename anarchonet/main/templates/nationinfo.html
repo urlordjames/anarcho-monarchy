@@ -4,18 +4,16 @@
 
 {% block content %}
 <div style="text-align: center">
-  <h1>{{ nation.name }}</h1>
-  <div class="small-text">
-    <p>{{ nation.about }}</p>
-    <p>owner: {{ nation.owner }}</p>
-  </div>
-  <h2>Members</h2>
+  <p class="big-text">{{ nation.name }}</p>
+  <p class="medium-text">{{ nation.about }}</p>
+  <p class="small-text">owner: {{ nation.owner }}</p>
+  <p class="big-text">Members</p>
   <div class="small-text">
     {% for member in members %}
     <p>{{ member }}</p>
     {% endfor %}
   </div>
-  <h2>Laws</h2>
+  <p class="big-text">Laws</p>
   {% if laws %}
   <div class="small-text">
     {% for law in laws %}
@@ -23,7 +21,7 @@
     {% endfor %}
   </div>
   {% else %}
-  <div><p>this nation has no laws</p></div>
+  <div><p class="small-text">this nation has no laws</p></div>
   {% endif %}
 </div>
 {% endblock %}

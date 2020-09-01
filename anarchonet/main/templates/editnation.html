@@ -4,7 +4,7 @@
 
 {% block content %}
 <div style="text-align: center">
-  <h1>Edit Nation</h1>
+  <p class="big-text">Edit Nation</p>
   <form action="/editnation/?nation={{ nation }}" method="POST">
     {% csrf_token %}
     <div class="container">
@@ -17,7 +17,7 @@
       </div>
     </div>
   </form>
-  <h1>laws</h1>
+  <p class="big-text">laws</p>
   {% for law in laws %}
   <div>
     <form action="/editlaw/" method="POST">
