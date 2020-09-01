@@ -19,6 +19,7 @@ def index(request):
     return render(request, "index.html", {"username": user.get_username(),
                                           "noaccount": accounts == 0,
                                           "hasnation": not nation is None})
+
 @csrf_protect
 def loginUser(request):
     if request.method == "GET":
@@ -134,6 +135,7 @@ def editPlayer(request):
 def viewNations(request):
     return render(request, "nationlist.html", {"title": "Nation List",
                                                "list": Nation.objects.all()})
+
 @csrf_protect
 def createNation(request):
     user = request.user
