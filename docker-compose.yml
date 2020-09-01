@@ -27,7 +27,7 @@ services:
         depends_on:
             - db
         volumes:
-            - static:/root/static
+            - static:/static
 
     productionproxy:
         image: "productionproxy"
