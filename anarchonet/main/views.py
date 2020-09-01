@@ -144,7 +144,8 @@ def viewNations(request):
 def createNation(request):
     user = request.user
     if not user.is_authenticated:
-        return HttpResponse(status=401)
+        messages.error(request, "you must be logged in to create a nation")
+        return redirect("/login/")
     if request.method == "GET":
         return render(request, "createnation.html")
     elif request.method == "POST":
