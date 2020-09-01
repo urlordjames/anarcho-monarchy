@@ -25,5 +25,11 @@ services:
             USESSL: "false"
         depends_on:
             - db
+
+    productionproxy:
+        image: "productionproxy"
+        build: .
         ports:
-            - 8000:8000
+            - 8000:80
+        depends_on:
+            - anarchy
