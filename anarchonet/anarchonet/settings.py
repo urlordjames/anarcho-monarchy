@@ -19,11 +19,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'efuq2zjk38+t4q65bd&2_son$aqlr-p0+vhdvs2i#x4rc&s_rb'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+productionkey = os.environ.get("SECRET")
+if productionkey is None:
+    SECRET_KEY = 'efuq2zjk38+t4q65bd&2_son$aqlr-p0+vhdvs2i#x4rc&s_rb'
+    DEBUG = True
+else:
+    SECRET_KEY = productionkey
+    DEBUG = False
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    X_FRAME_OPTIONS = "DENY"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -75,12 +80,24 @@ WSGI_APPLICATION = 'anarchonet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ["dbname"],
+            'USER': os.environ["dbuser"],
+            'PASSWORD': os.environ["dbpass"],
+            'HOST': 'db',
+            'PORT': 5432
+        }
+    }
 
 
 # Password validation
