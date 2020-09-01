@@ -1,0 +1,27 @@
+version: "3.8"
+
+volumes:
+    db:
+
+services:
+    db:
+        image: "postgres"
+        restart: always
+        environment:
+            POSTGRES_USER: "anarchist"
+            POSTGRES_PASSWORD: ${dbpass}
+        volumes:
+            - db:/var/lib/postgresql/data
+
+    anarchy:
+        image: "anarchy"
+        build: .
+        environment:
+            secret: ${secret}
+            dbname: "db"
+            dbuser: "anarchist"
+            dbpass: ${dbpass}
+        depends_on:
+            - db
+        ports:
+            - 8000:8000
