@@ -16,7 +16,7 @@ services:
 
     anarchy:
         image: "anarchy"
-        build: .
+        build: ./anarchonet
         environment:
             SECRET: ${SECRET}
             dbname: "db"
