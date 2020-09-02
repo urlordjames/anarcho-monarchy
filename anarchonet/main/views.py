@@ -128,7 +128,7 @@ def editPlayer(request):
         requestednation = request.POST.get("nation")
         nation = None
         if not requestednation is None and requestednation != "":
-            nation = get_object_or_404(Nation, name=request.POST.get("nation"))
+            nation = get_object_or_404(Nation, name=requestednation)
         player.nation = nation
         player.save()
         messages.success(request, "player alliance set successfully")
@@ -152,7 +152,7 @@ def createNation(request):
         if not user.is_superuser and len(Nation.objects.all().filter(owner=user)) >= 1:
             messages.error(request, "you may only lead one nation")
             return redirect("/")
-        newnation = Nation(owner=user, name=request.POST.get("name"), about=request.POST.get("about"))
+        newnation = Nation(owner=user, name=request.POST["name"], about=request.POST.get("about"))
         try:
             newnation.full_clean()
             newnation.save()
@@ -183,8 +183,8 @@ def editNation(request):
         return render(request, "editnation.html", {"nation": nation,
                                                    "laws": Law.objects.all().filter(nation=nation)})
     elif request.method == "POST":
+        nation.about = request.POST.get("about")
         try:
-            nation.about = request.POST.get("about")
             nation.full_clean()
             nation.save()
         except ValidationError as e:
@@ -201,7 +201,7 @@ def createLaw(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
-    nation = get_object_or_404(Nation, name=request.POST.get("nation"))
+    nation = get_object_or_404(Nation, name=request.POST["nation"])
     if nation.owner != user:
         return HttpResponse(status=403)
     newlaw = Law(nation=nation)
@@ -211,6 +211,7 @@ def createLaw(request):
     except ValidationError as e:
         for i in e:
             messages.error(request, i)
+        return redirect("/editnation/")
     messages.success(request, "law successfully created")
     return redirect("/editnation/")
 
@@ -219,7 +220,7 @@ def editLaw(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
-    law = get_object_or_404(Law, pk=request.POST.get("id"))
+    law = get_object_or_404(Law, pk=request.POST["id"])
     nation = law.nation
     if nation.owner != user:
         return HttpResponse(status=403)
@@ -230,6 +231,7 @@ def editLaw(request):
     except ValidationError as e:
         for i in e:
             messages.error(request, i)
+        return redirect("/editnation/")
     messages.success(request, "law successfully edited")
     return redirect("/editnation/")
 
@@ -238,7 +240,7 @@ def deleteLaw(request):
     user = request.user
     if not user.is_authenticated:
         return HttpResponse(status=401)
-    law = get_object_or_404(Law, pk=request.POST.get("id"))
+    law = get_object_or_404(Law, pk=request.POST["id"])
     nation = law.nation
     if nation.owner != user:
         return HttpResponse(status=403)
@@ -254,14 +256,14 @@ def createUser(request):
     if request.method == "GET":
         return render(request, "createaccount.html")
     elif request.method == "POST":
-        password = request.POST.get("password")
+        password = request.POST["password"]
         try:
             validate_password(password)
         except ValidationError as e:
             for i in e:
                 messages.error(request, i)
             return redirect("/createaccount/")
-        user = User.objects.create_user(username=request.POST.get("username"),
+        user = User.objects.create_user(username=request.POST["username"],
                                         password=password)
         try:
             user.full_clean()
